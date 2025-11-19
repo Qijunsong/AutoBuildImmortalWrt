@@ -81,27 +81,17 @@ PACKAGES="$PACKAGES openssh-sftp-server"
 PACKAGES="$PACKAGES luci-i18n-samba4-zh-cn"
 PACKAGES="$PACKAGES luci-i18n-uhttpd-zh-cn"
 # CloudDrive2
-PACKAGES="$PACKAGES clouddrive2"
-PACKAGES="$PACKAGES luci-app-clouddrive2"
 PACKAGES="$PACKAGES luci-i18n-clouddrive2-zh-cn"
 # Lucky
-#PACKAGES="$PACKAGES lucky"
-#PACKAGES="$PACKAGES luci-app-lucky"
 #PACKAGES="$PACKAGES luci-i18n-lucky-zh-cn"
 # Unishare (新增)
-PACKAGES="$PACKAGES unishare"
-PACKAGES="$PACKAGES luci-app-unishare"
 PACKAGES="$PACKAGES luci-i18n-unishare-zh-cn"
 # Linkease (新增)
-PACKAGES="$PACKAGES linkease"
-PACKAGES="$PACKAGES luci-app-linkease"
 PACKAGES="$PACKAGES luci-i18n-linkease-zh-cn"
 # iptables-nft 兼容性工具
 PACKAGES="$PACKAGES iptables-nft"
 
 # wrtbwmon (新增)
-PACKAGES="$PACKAGES wrtbwmon"
-PACKAGES="$PACKAGES luci-app-wrtbwmon"
 PACKAGES="$PACKAGES luci-i18n-wrtbwmon-zh-cn"
 
 # 文件管理器
