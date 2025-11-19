@@ -1,5 +1,24 @@
 #!/bin/bash
 # Log file for debugging
+# ... (在构建镜像前)
+
+# 确保编译目录存在，避免路径问题
+mkdir -p files/etc/openclash/core
+
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Building image with the following packages:"
+echo "$PACKAGES"
+
+# 运行 make image 并将输出重定向到文件，同时打印到控制台
+# 加上 V=s 可以输出更详细的编译信息 (Verbosity=silent)
+make image PROFILE="generic" PACKAGES="$PACKAGES" FILES="/home/build/immortalwrt/files" ROOTFS_PARTSIZE=$PROFILE V=s 2>&1 | tee "$LOGFILE.make_output"
+
+if [ $? -ne 0 ]; then
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - Error: Build failed! Check $LOGFILE.make_output for details."
+    exit 1
+fi
+
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Build completed successfully."
+
 source shell/custom-packages.sh
 echo "第三方软件包: $CUSTOM_PACKAGES"
 LOGFILE="/tmp/uci-defaults-log.txt"
