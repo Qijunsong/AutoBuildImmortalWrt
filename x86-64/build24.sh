@@ -60,7 +60,7 @@ PACKAGES="$PACKAGES luci-app-openclash"
 PACKAGES="$PACKAGES luci-i18n-homeproxy-zh-cn"
 PACKAGES="$PACKAGES openssh-sftp-server"
 PACKAGES="$PACKAGES luci-i18n-samba4-zh-cn"
-PACKAGES="$PACKAGES luci-i18n-uhttpd-zh-cn
+PACKAGES="$PACKAGES luci-i18n-uhttpd-zh-cn"
 # CloudDrive2
 PACKAGES="$PACKAGES clouddrive2"
 PACKAGES="$PACKAGES luci-app-clouddrive2"
