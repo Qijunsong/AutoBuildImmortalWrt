@@ -66,9 +66,9 @@ PACKAGES="$PACKAGES clouddrive2"
 PACKAGES="$PACKAGES luci-app-clouddrive2"
 PACKAGES="$PACKAGES luci-i18n-clouddrive2-zh-cn"
 # Lucky
-PACKAGES="$PACKAGES lucky"
-PACKAGES="$PACKAGES luci-app-lucky"
-PACKAGES="$PACKAGES luci-i18n-lucky-zh-cn"
+#PACKAGES="$PACKAGES lucky"
+#PACKAGES="$PACKAGES luci-app-lucky"
+#PACKAGES="$PACKAGES luci-i18n-lucky-zh-cn"
 # Unishare (新增)
 PACKAGES="$PACKAGES unishare"
 PACKAGES="$PACKAGES luci-app-unishare"
