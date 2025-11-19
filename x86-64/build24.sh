@@ -91,7 +91,7 @@ PACKAGES="$PACKAGES luci-i18n-uhttpd-zh-cn"
 #PACKAGES="$PACKAGES iptables-nft"
 
 # wrtbwmon (新增)
-PACKAGES="$PACKAGES luci-i18n-wrtbwmon-zh-cn"
+#PACKAGES="$PACKAGES luci-i18n-wrtbwmon-zh-cn"
 
 # 文件管理器
 PACKAGES="$PACKAGES luci-i18n-filemanager-zh-cn"
