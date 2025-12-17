@@ -74,21 +74,13 @@ PACKAGES="$PACKAGES luci-i18n-argon-config-zh-cn"
 PACKAGES="$PACKAGES luci-i18n-package-manager-zh-cn"
 PACKAGES="$PACKAGES luci-i18n-ttyd-zh-cn"
 PACKAGES="$PACKAGES luci-i18n-passwall-zh-cn"
-PACKAGES="$PACKAGES luci-app-openclash"
-PACKAGES="$PACKAGES luci-i18n-homeproxy-zh-cn"
+#PACKAGES="$PACKAGES luci-app-openclash"
+#PACKAGES="$PACKAGES luci-i18n-homeproxy-zh-cn"
 PACKAGES="$PACKAGES openssh-sftp-server"
 PACKAGES="$PACKAGES luci-i18n-samba4-zh-cn"
 PACKAGES="$PACKAGES luci-i18n-uhttpd-zh-cn"
-# CloudDrive2
-# PACKAGES="$PACKAGES luci-i18n-clouddrive2-zh-cn"
-# Lucky
-#PACKAGES="$PACKAGES luci-i18n-lucky-zh-cn"
-# Unishare (新增)
-#PACKAGES="$PACKAGES luci-i18n-unishare-zh-cn"
-# Linkease (新增)
-#PACKAGES="$PACKAGES luci-i18n-linkease-zh-cn"
-# iptables-nft 兼容性工具
-#PACKAGES="$PACKAGES iptables-nft"
+PACKAGES="$PACKAGES luci-app-unishare"
+PACKAGES="$PACKAGES iptables-nft"
 
 # wrtbwmon (新增)
 #PACKAGES="$PACKAGES luci-i18n-wrtbwmon-zh-cn"
