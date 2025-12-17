@@ -52,7 +52,7 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-taskplan luci-i18n-taskplan-zh-cn"
 # Zerotier
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-zerotier luci-i18n-zerotier-zh-cn"
 # Easytier
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES easytier luci-app-easytier"
+# CUSTOM_PACKAGES="$CUSTOM_PACKAGES easytier luci-app-easytier"
 # cifs
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES kmod-fs-cifs kmod-fs-smbfs-common luci-app-cifs-mount luci-i18n-cifs-mount-zh-cn"
 # UPnP IGD 和 PCP/NAT-PMP 服务
