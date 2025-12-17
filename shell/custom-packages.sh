@@ -25,7 +25,7 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-passwall-zh-cn"
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES -luci-i18n-homeproxy-zh-cn"
 # VPN
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-tailscale luci-i18n-tailscale-zh-cn"
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES WireGuard luci-proto-wireguard"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES wireguard-tools kmod-wireguard luci-proto-wireguard"
 # 分区扩容 by sirpdboy 
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-partexp luci-i18n-partexp-zh-cn"
 # 酷猫主题 by sirpdboy 
@@ -50,16 +50,11 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-gecoosac gecoosac"
 # 任务设置
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-taskplan luci-i18n-taskplan-zh-cn"
 # Zerotier
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES zerotier luci-app-zerotier"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-zerotier luci-i18n-zerotier-zh-cn"
 # Easytier
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES easytier luci-app-easytier"
-# 统一文件共享
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES webdav2 luci-app-unishare"
-# 挂载 SMB/CIFS 网络共享
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES SMB/CIFS luci-i18n-cifs-mount-zh-cn"
-# CloudDrive2
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES clouddrive2 luci-i18n-clouddrive2-zh-cn"
+# cifs
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES kmod-fs-cifs kmod-fs-smbfs-common luci-app-cifs-mount luci-i18n-cifs-mount-zh-cn"
 # UPnP IGD 和 PCP/NAT-PMP 服务
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES upnp luci-i18n-upnp-zh-cn"
-# uhttpd
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES uhttpd luci-i18n-uhttpd-zh-cn"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES miniupnpd-iptables miniupnpd-nftables luci-app-upnp luci-i18n-upnp-zh-cn"
+
