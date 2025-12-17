@@ -56,5 +56,5 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-zerotier luci-i18n-zerotier-zh-cn"
 # cifs
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES kmod-fs-cifs kmod-fs-smbfs-common luci-app-cifs-mount luci-i18n-cifs-mount-zh-cn"
 # UPnP IGD 和 PCP/NAT-PMP 服务
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES miniupnpd-iptables miniupnpd-nftables luci-app-upnp luci-i18n-upnp-zh-cn"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES miniupnpd-nftables luci-app-upnp luci-i18n-upnp-zh-cn"
 
