@@ -67,6 +67,9 @@ PACKAGES="$PACKAGES luci-i18n-ttyd-zh-cn"
 PACKAGES="$PACKAGES openssh-sftp-server"
 PACKAGES="$PACKAGES luci-i18n-filemanager-zh-cn"
 
+# 👇 在此处新增 CloudDrive2
+PACKAGES="$PACKAGES clouddrive2 luci-app-clouddrive2 luci-i18n-clouddrive2-zh-cn"
+
 # Passwall 2 及其核心组件（去除了旧版 luci-app-passwall，只保留新版）
 PACKAGES="$PACKAGES luci-app-passwall2 luci-i18n-passwall2-zh-cn xray-core hysteria sing-box chinadns-ng geoview shadowsocks-rust-ssserver shadowsocks-libev-ss-server kmod-fuse"
 
