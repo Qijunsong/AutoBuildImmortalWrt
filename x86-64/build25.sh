@@ -11,7 +11,8 @@ ROOTFS_SIZE="${PROFILE:-256}"
 echo "预设根文件系统分区大小为: ${ROOTFS_SIZE} MB"
 echo "Include Docker: $INCLUDE_DOCKER"
 
-# 是否单独集成 CloudDrive2 核心程序（推荐保持 "yes"，防止仓库源里缺核心二进制）
+# 💡 是否在固件底层直接注入 CloudDrive2 核心程序 (不经过包管理器，绝不报错)
+# 如果你完全不需要 CloudDrive2 的任何东西，请将 "yes" 改为 "no"
 INTEGRATE_CD2_CORE="yes"
 
 # 明确核心绝对路径，根绝因执行路径切换导致的“找不到文件”问题
@@ -67,10 +68,9 @@ PACKAGES="$PACKAGES luci-i18n-ttyd-zh-cn"
 PACKAGES="$PACKAGES openssh-sftp-server"
 PACKAGES="$PACKAGES luci-i18n-filemanager-zh-cn"
 
-# 🔥【加回 CloudDrive2】只留界面和中文语言包，移除了会导致报错的纯 clouddrive2 字段
-PACKAGES="$PACKAGES luci-app-clouddrive2 luci-i18n-clouddrive2-zh-cn"
+# ❌【已完全移除】此处不再包含任何 clouddrive2 相关的 luci 软件包
 
-# Passwall 2 及其核心组件（⚠️已彻底移除了导致报错的旧版 shadowsocks-libev-ss-server）
+# Passwall 2 及其核心组件（已移除了旧版 shadowsocks-libev-ss-server）
 PACKAGES="$PACKAGES luci-app-passwall2 luci-i18n-passwall2-zh-cn xray-core hysteria sing-box chinadns-ng geoview shadowsocks-rust-ssserver kmod-fuse"
 
 # ======== shell/apk-custom-packages.sh =======
@@ -127,13 +127,11 @@ if [ "$INTEGRATE_CD2_CORE" = "yes" ]; then
     echo "✅ 正在从官方源拉取 CloudDrive2 v1.0.11 Linux x86_64 核心..."
     mkdir -p "$FILES_DIR/usr/bin"
     
-    # 依据你提供的资产配置精准直链
     CD2_URL="https://github.com/cloud-fs/cloud-fs.github.io/releases/download/v1.0.11/clouddrive-2-linux-x86_64-1.0.11.tgz"
     
     mkdir -p /tmp/cd2-unpack
     wget -qO- "$CD2_URL" | tar -xzvC /tmp/cd2-unpack
     
-    # 提取核心文件至固件 /usr/bin/clouddrive
     if [ -f "/tmp/cd2-unpack/clouddrive-2/clouddrive" ]; then
         cp /tmp/cd2-unpack/clouddrive-2/clouddrive "$FILES_DIR/usr/bin/clouddrive"
     elif [ -f "/tmp/cd2-unpack/clouddrive" ]; then
