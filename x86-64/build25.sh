@@ -5,21 +5,28 @@ source shell/apk-custom-packages.sh
 echo "第三方apk软件包: $CUSTOM_PACKAGES"
 LOGFILE="/tmp/uci-defaults-log.txt"
 echo "Starting 99-custom.sh at $(date)" >> $LOGFILE
-echo "编译固件大小为: $PROFILE MB"
+
+# 💡 将代表分区大小的变量重命名，防止与编译器的 PROFILE 冲突
+ROOTFS_SIZE="${PROFILE:-256}" 
+echo "预设根文件系统分区大小为: ${ROOTFS_SIZE} MB"
 echo "Include Docker: $INCLUDE_DOCKER"
 
+# 💡 明确核心绝对路径，根绝因执行路径切换导致的“找不到文件”问题
+BASE_DIR="/home/build/immortalwrt"
+FILES_DIR="$BASE_DIR/files"
+
 echo "Create pppoe-settings"
-mkdir -p  /home/build/immortalwrt/files/etc/config
+mkdir -p "$FILES_DIR/etc/config"
 
 # 创建pppoe配置文件 yml传入环境变量ENABLE_PPPOE等 写入配置文件 供99-custom.sh读取
-cat << EOF > /home/build/immortalwrt/files/etc/config/pppoe-settings
+cat << EOF > "$FILES_DIR/etc/config/pppoe-settings"
 enable_pppoe=${ENABLE_PPPOE}
 pppoe_account=${PPPOE_ACCOUNT}
 pppoe_password=${PPPOE_PASSWORD}
 EOF
 
 echo "cat pppoe-settings"
-cat /home/build/immortalwrt/files/etc/config/pppoe-settings
+cat "$FILES_DIR/etc/config/pppoe-settings"
 
 if [ -z "$CUSTOM_PACKAGES" ]; then
   echo "⚪️ 未选择 任何第三方软件包"
@@ -30,13 +37,13 @@ else
   git clone --depth=1 https://github.com/wukongdaily/apk.git /tmp/store-apk-repo
 
   # 拷贝 run/x86 下所有 run 文件和apk文件 到 extra-packages 目录
-  mkdir -p /home/build/immortalwrt/extra-packages
-  cp -r /tmp/store-apk-repo/run/x86/* /home/build/immortalwrt/extra-packages/
+  mkdir -p "$BASE_DIR/extra-packages"
+  cp -r /tmp/store-apk-repo/run/x86/* "$BASE_DIR/extra-packages/"
 
   echo "✅ Run files copied to extra-packages:"
   # 解压并拷贝apk到packages目录
   sh shell/apk-prepare-packages.sh
-  ls -lah /home/build/immortalwrt/packages/
+  ls -lah "$BASE_DIR/packages/"
 fi
 
 
@@ -55,16 +62,13 @@ PACKAGES="$PACKAGES luci-i18n-argon-config-zh-cn"
 #25.12
 PACKAGES="$PACKAGES luci-i18n-package-manager-zh-cn"
 PACKAGES="$PACKAGES luci-i18n-ttyd-zh-cn"
-PACKAGES="$PACKAGES openssh-sftp-server"
 
-# 文件管理器
+# 文件管理器与 SFTP (已在此处保留，下方已移除重复项)
+PACKAGES="$PACKAGES openssh-sftp-server"
 PACKAGES="$PACKAGES luci-i18n-filemanager-zh-cn"
 
-# Passwall 2 及其核心组件（去除了旧版 luci-app-passwall）
+# Passwall 2 及其核心组件（去除了旧版 luci-app-passwall，只保留新版）
 PACKAGES="$PACKAGES luci-app-passwall2 luci-i18n-passwall2-zh-cn xray-core hysteria sing-box chinadns-ng geoview shadowsocks-rust-ssserver shadowsocks-libev-ss-server kmod-fuse"
-
-PACKAGES="$PACKAGES openssh-sftp-server"
-PACKAGES="$PACKAGES luci-i18n-filemanager-zh-cn"
 
 # ======== shell/apk-custom-packages.sh =======
 # 合并imm仓库以外的第三方插件 暂时注释
@@ -80,35 +84,39 @@ fi
 # 若构建openclash 则添加内核
 if echo "$PACKAGES" | grep -q "luci-app-openclash"; then
     echo "✅ 已选择 luci-app-openclash，添加 openclash core"
-    mkdir -p files/etc/openclash/core
+    mkdir -p "$FILES_DIR/etc/openclash/core"
+    
     # Download clash_meta
     META_URL="https://raw.githubusercontent.com/vernesong/OpenClash/core/master/meta/clash-linux-amd64-v1.tar.gz"
-    wget -qO- $META_URL | tar xOvz > files/etc/openclash/core/clash_meta
-    chmod +x files/etc/openclash/core/clash_meta
+    wget -qO- $META_URL | tar xOvz > "$FILES_DIR/etc/openclash/core/clash_meta"
+    chmod +x "$FILES_DIR/etc/openclash/core/clash_meta"
+    
     # Download GeoIP and GeoSite
-    wget -q https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -O files/etc/openclash/GeoIP.dat
-    wget -q https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -O files/etc/openclash/GeoSite.dat
+    wget -q https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -O "$FILES_DIR/etc/openclash/GeoIP.dat"
+    wget -q https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -O "$FILES_DIR/etc/openclash/GeoSite.dat"
+    
     # Download latest openclash Client
     URL=$(curl -s https://api.github.com/repos/vernesong/OpenClash/releases/latest \
       | grep "browser_download_url.*apk" \
       | head -n1 \
       | cut -d '"' -f 4)
     echo "OpenClash latest apk: $URL"
-    wget "$URL" -P /home/build/immortalwrt/packages/
+    if [ -n "$URL" ]; then
+        wget "$URL" -P "$BASE_DIR/packages/"
+    fi
 else
     echo "⚪️ 未选择 luci-app-openclash"
 fi
 
 if echo "$PACKAGES" | grep -q "luci-app-ssr-plus"; then
     echo "✅ 已选择 luci-app-ssr-plus，添加 mihomo core"
-    mkdir -p files/usr/bin
+    mkdir -p "$FILES_DIR/usr/bin"
     # Download mihomo
     MIHOMO_URL="https://github.com/MetaCubeX/mihomo/releases/download/v1.19.24/mihomo-linux-amd64-compatible-v1.19.24.gz"
-    mkdir -p files/usr/bin
-    wget -qO- "$MIHOMO_URL" | gzip -dc > files/usr/bin/mihomo
-    chmod +x files/usr/bin/mihomo
+    wget -qO- "$MIHOMO_URL" | gzip -dc > "$FILES_DIR/usr/bin/mihomo"
+    chmod +x "$FILES_DIR/usr/bin/mihomo"
     echo "✅ 已下载 mihomo core"
-    ls -lah files/usr/bin
+    ls -lah "$FILES_DIR/usr/bin"
 else
     echo "⚪️ 未选择 luci-app-ssr-plus"
 fi
@@ -117,7 +125,8 @@ fi
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Building image with the following packages:"
 echo "$PACKAGES"
 
-make image PROFILE="generic" PACKAGES="$PACKAGES" FILES="/home/build/immortalwrt/files" ROOTFS_PARTSIZE=$PROFILE
+# 执行编译（传递修正后的变量与绝对路径）
+make image PROFILE="generic" PACKAGES="$PACKAGES" FILES="$FILES_DIR" ROOTFS_PARTSIZE=$ROOTFS_SIZE
 
 if [ $? -ne 0 ]; then
     echo "$(date '+%Y-%m-%d %H:%M:%S') - Error: Build failed!"
