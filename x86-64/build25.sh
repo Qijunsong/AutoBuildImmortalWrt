@@ -59,6 +59,13 @@ PACKAGES="$PACKAGES openssh-sftp-server"
 
 # 文件管理器
 PACKAGES="$PACKAGES luci-i18n-filemanager-zh-cn"
+
+# Passwall 2 及其核心组件（去除了旧版 luci-app-passwall）
+PACKAGES="$PACKAGES luci-app-passwall2 luci-i18n-passwall2-zh-cn xray-core hysteria sing-box chinadns-ng geoview shadowsocks-rust-ssserver shadowsocks-libev-ss-server kmod-fuse"
+
+PACKAGES="$PACKAGES openssh-sftp-server"
+PACKAGES="$PACKAGES luci-i18n-filemanager-zh-cn"
+
 # ======== shell/apk-custom-packages.sh =======
 # 合并imm仓库以外的第三方插件 暂时注释
 PACKAGES="$PACKAGES $CUSTOM_PACKAGES"
