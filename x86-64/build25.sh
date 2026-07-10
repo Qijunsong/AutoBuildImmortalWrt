@@ -123,7 +123,37 @@ if echo "$PACKAGES" | grep -q "luci-app-ssr-plus"; then
 else
     echo "⚪️ 未选择 luci-app-ssr-plus"
 fi
+# ... 这里是原脚本判断 ssr-plus 的结尾 ...
+else
+    echo "⚪️ 未选择 luci-app-ssr-plus"
+fi
 
+
+# 3️⃣ 新增：若集成了 clouddrive2，则自动下载并打包 Linux x86_64 核心
+if echo "$PACKAGES" | grep -q "luci-app-clouddrive2"; then
+    echo "✅ 已选择 luci-app-clouddrive2，正在下载 clouddrive-2 x86_64 核心..."
+    mkdir -p "$FILES_DIR/usr/bin"
+    
+    # 定义官方 1.0.11 x86_64 核心下载直链
+    CD2_URL="https://github.com/cloud-drive2/CloudDrive2/releases/download/v1.0.11/clouddrive-2-linux-x86_64-1.0.11.tgz"
+    
+    # 下载并解压
+    mkdir -p /tmp/cd2-unpack
+    wget -qO- "$CD2_URL" | tar -xzvC /tmp/cd2-unpack
+    
+    # 移动核心到固件对应的 /usr/bin 目录，并赋予执行权限
+    cp /tmp/cd2-unpack/clouddrive-2/clouddrive "$FILES_DIR/usr/bin/clouddrive" 2>/dev/null || cp /tmp/cd2-unpack/clouddrive "$FILES_DIR/usr/bin/clouddrive"
+    chmod +x "$FILES_DIR/usr/bin/clouddrive"
+    
+    rm -rf /tmp/cd2-unpack
+    echo "✅ clouddrive-2 核心下载并打包完成"
+else
+    echo "⚪️ 未选择 luci-app-clouddrive2"
+fi
+
+
+# ======== 这里接原来的：# 构建镜像 ========
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Building image with the following packages:"
 # 构建镜像
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Building image with the following packages:"
 echo "$PACKAGES"
